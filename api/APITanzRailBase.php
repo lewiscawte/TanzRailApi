@@ -47,6 +47,10 @@ class APITanzRailBase {
 				return 'tazara';
 			break;
 
+			case 'all':
+				return 'all';
+			break;
+
 			default:
 				return $input;
 			break;

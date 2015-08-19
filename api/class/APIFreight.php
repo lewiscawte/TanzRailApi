@@ -19,6 +19,14 @@ class APIFreight extends APITanzRailBase {
 	public function getYearlyCompanyStat( $company, $year ) {
 		return $this->getWorker()->getCompanyYearData( $company, $year );
 	}
+
+	public function getAllCompanies() {
+		return $this->getWorker()->getAllCompanies();
+	}
+
+	public function getAllCompaniesSingle( $year ) {
+		return $this->getWorker()->getAllCompaniesSingle( $year );
+	}
 }
 
 class APIFreightWorker extends APITanzRailBase {
@@ -32,12 +40,10 @@ class APIFreightWorker extends APITanzRailBase {
 
 		$data = $db->doQuery( $query );
 
-		$x = 0;
 		$freightentry = array();
 
 		while ( $entry = $data->fetch_assoc() ) {
-			$x++;
-			$freightentry[$x] = $entry;
+			$freightentry[$entry['year']] = $entry['data'];
 		}
 
 		$data = $this->basicEncode(
@@ -68,6 +74,63 @@ class APIFreightWorker extends APITanzRailBase {
 				'version' => 0.1
 			),
 			$data
+		);
+
+		return $data;
+	}
+
+	public function getAllCompanies() {
+		$db = $this->getDatabase();
+
+		$query = "SELECT * from freight_data ORDER BY year, company";
+
+		$data = $db->doQuery( $query );
+
+		$year = array();
+		$years = array();
+		$newYears = array();
+
+		while ( $entry = $data->fetch_assoc() ) {
+			$years[] = $year[$entry['year']] = $entry;
+		}
+
+		foreach( $years as $oneyear ) {
+			$curryear = $oneyear['year'];
+			$company = $oneyear['company'];
+
+			$newYears[$curryear][$company] = $oneyear['data'];
+		}
+
+		$data = $this->basicEncode(
+			array(
+				'scheme' => 'someschema',
+				'version' => 0.1
+			),
+			$newYears
+		);
+
+		return $data;
+	}
+
+	public function getAllCompaniesSingle( $year ) {
+		$db = $this->getDatabase();
+
+		$query = "SELECT company, data from freight_data WHERE year = {$year} ORDER BY company";
+
+		$data = $db->doQuery( $query );
+
+		$year = array();
+
+		while ( $entry = $data->fetch_assoc() ) {
+			$year[$entry['company']] = $entry['data'];
+		}
+
+		$data = $this->basicEncode(
+			array(
+				'scheme' => 'someschema',
+				'version' => 0.1
+			),
+			$year
 		);
 
 		return $data;
