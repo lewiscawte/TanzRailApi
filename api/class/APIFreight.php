@@ -12,14 +12,6 @@ class APIFreight extends APITanzRailBase {
 		return new APIFreightWorker();
 	}
 
-	public static function get( $company, $year ) {
-		if( $company === 'tazara' && $year === '2011' ) {
-			echo 534000;
-		} else {
-			return null;
-		}
-	}
-
 	public function getCompanyData( $company ) {
 		return $this->getWorker()->getAllCompanyData( $company );
 	}
@@ -60,6 +52,8 @@ class APIFreightWorker extends APITanzRailBase {
 	}
 
 	public function getCompanyYearData( $company, $year ) {
+		// @TODO: Reduce code duplication between APIFreightWorker::getCompanyYearData
+		// @TODO:	and APIFreightWorker::getAllCompanyData.
 		$db = $this->getDatabase();
 
 		$company = $this->mapCompanyAliases( $company );

@@ -7,6 +7,7 @@ class APITanzRailBase {
 	}
 
 	public function basicEncode( array $schema, $data ) {
+		// @TODO: Write a better encoder to facilitate schema based JSON outputs
 		//$enc = new APIEncoder();
 		//$schema = $enc->getSchema( $schema );
 		//return new JsonBasicEncoder( $schema, $data );
