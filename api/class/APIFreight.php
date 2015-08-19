@@ -2,6 +2,12 @@
 
 class APIFreight extends APITanzRailBase {
 
+	public function __construct( $company ) {
+		if( !$this->isValidCompany( $company ) ) {
+			throw new Exception( 'Invalid company' );
+		}
+	}
+
 	private function getWorker() {
 		return new APIFreightWorker();
 	}
@@ -15,11 +21,11 @@ class APIFreight extends APITanzRailBase {
 	}
 
 	public function getCompanyData( $company ) {
-		if( $this->isValidCompany( $company ) ) {
-			return $this->getWorker()->getAllCompanyData( $company );
-		} else {
-			throw new Exception( 'Invalid company' );
-		}
+		return $this->getWorker()->getAllCompanyData( $company );
+	}
+
+	public function getYearlyCompanyStat( $company, $year ) {
+		return $this->getWorker()->getCompanyYearData( $company, $year );
 	}
 }
 
@@ -27,6 +33,8 @@ class APIFreightWorker extends APITanzRailBase {
 
 	public function getAllCompanyData( $company ) {
 		$db = $this->getDatabase();
+
+		$company = $this->mapCompanyAliases( $company );
 
 		$query = "SELECT year, data from freight_data WHERE company = '{$company}' ORDER BY YEAR";
 
@@ -46,6 +54,26 @@ class APIFreightWorker extends APITanzRailBase {
 				'version' => 0.1
 			),
 			$freightentry
+		);
+
+		return $data;
+	}
+
+	public function getCompanyYearData( $company, $year ) {
+		$db = $this->getDatabase();
+
+		$company = $this->mapCompanyAliases( $company );
+
+		$query = "SELECT year, data from freight_data WHERE company = '{$company}' AND year = '{$year}'";
+
+		$data = $db->doQuery( $query )->fetch_assoc();
+
+		$data = $this->basicEncode(
+			array(
+				'scheme' => 'companyAtYear',
+				'version' => 0.1
+			),
+			$data
 		);
 
 		return $data;

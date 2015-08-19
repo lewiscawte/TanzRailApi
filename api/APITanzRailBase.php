@@ -28,12 +28,13 @@ class APITanzRailBase {
 		}
 	}
 
-	private function mapCompanyAliases( $input ) {
+	protected function mapCompanyAliases( $input ) {
 		switch( $input ) {
 			case 'trl':
 			case 'tanzaniarailcorporation':
 			case 'tanzaniaraillimited':
-				return 'trc';
+			case 'trc':
+				return 'trl';
 			break;
 
 			case 'tanzaniazambia':
