@@ -3,7 +3,7 @@
 class APIFreight extends APITanzRailBase {
 
 	public function __construct( $company ) {
-		if( !$this->isValidCompany( $company ) ) {
+		if ( !$this->isValidCompany( $company ) ) {
 			throw new Exception( 'Invalid company' );
 		}
 	}
@@ -94,7 +94,7 @@ class APIFreightWorker extends APITanzRailBase {
 			$years[] = $year[$entry['year']] = $entry;
 		}
 
-		foreach( $years as $oneyear ) {
+		foreach ( $years as $oneyear ) {
 			$curryear = $oneyear['year'];
 			$company = $oneyear['company'];
 

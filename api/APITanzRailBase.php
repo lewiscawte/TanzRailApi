@@ -8,9 +8,9 @@ class APITanzRailBase {
 
 	public function basicEncode( array $schema, $data ) {
 		// @TODO: Write a better encoder to facilitate schema based JSON outputs
-		//$enc = new APIEncoder();
-		//$schema = $enc->getSchema( $schema );
-		//return new JsonBasicEncoder( $schema, $data );
+		// $enc = new APIEncoder();
+		// $schema = $enc->getSchema( $schema );
+		// return new JsonBasicEncoder( $schema, $data );
 
 		$enc = json_encode( $data, JSON_PRETTY_PRINT );
 		return $enc;
@@ -22,7 +22,7 @@ class APITanzRailBase {
 		$company = strtolower( $company );
 		$company = $this->mapCompanyAliases( $company );
 
-		if( array_key_exists( $company, $tzrValidCompanies ) ) {
+		if ( array_key_exists( $company, $tzrValidCompanies ) ) {
 			return true;
 		} else {
 			return new Exception( 'Company does not exist' );
