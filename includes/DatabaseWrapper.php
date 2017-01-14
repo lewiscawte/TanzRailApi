@@ -26,11 +26,6 @@ class DatabaseWrapper {
 		$this->db->close();
 	}
 
-	public function insert( $table, $fields, $values ) {
-		// @TODO: Check if this is used. If not, replace and/or fix function and convert.
-		return $this->db->query( 'INSERT INTO' . $table . '( ' . implode( ',', $fields ) . ') VALUES ( ' . implode( ',', $values ) . ' );' );
-	}
-
 	/**
 	 * Simple wrapper function for... all SQL queries.
 	 * Uses the existing database object to save having to open

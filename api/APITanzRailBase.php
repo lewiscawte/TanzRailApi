@@ -19,7 +19,7 @@ class APITanzRailBase {
 	public function isValidCompany( $company ) {
 		global $tzrValidCompanies;
 
-		$company = strtolower( $company );
+		$company = htmlspecialchars( strtolower( $company ) );
 		$company = $this->mapCompanyAliases( $company );
 
 		if ( array_key_exists( $company, $tzrValidCompanies ) ) {
