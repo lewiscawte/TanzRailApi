@@ -1,6 +1,6 @@
 <?php
 
-require "$IP/vendor/Slim/Slim/Slim.php";
+require "$IP/vendor/autoload.php";
 \Slim\Slim::registerAutoloader();
 
 $app = new \Slim\Slim();
