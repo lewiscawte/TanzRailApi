@@ -1,0 +1,9 @@
+{
+    "require": {
+        "slim/slim": "^2.0",
+        "twig/twig": "~2.0",
+        "psr/log": "^1.0",
+        "twbs/bootstrap": "^3.3",
+        "geraintluff/jsv4": "^1.0"
+    }
+}
